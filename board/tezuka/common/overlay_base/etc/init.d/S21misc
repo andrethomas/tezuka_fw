@@ -23,6 +23,10 @@ case "$1" in
 		# default path Dropbear uses for user pubkey authorization)
 		[ ! -d /root/.ssh ] && mkdir -p /root/.ssh && chmod 700 /root/.ssh
 		[ -f /mnt/jffs2/etc/ssh/authorized_keys ] && [ ! -f /root/.ssh/authorized_keys ] && cp /mnt/jffs2/etc/ssh/authorized_keys /root/.ssh/authorized_keys && chmod 600 /root/.ssh/authorized_keys
+		# Restore Dropbear host keys saved by device_persistent_keys
+		# Try SD card FAT partition first, then JFFS2
+		[ -d /boot/etc/dropbear ] && [ -f /boot/etc/dropbear/keys.md5 ] && [ -z "$(ls /etc/dropbear/dropbear_* 2>/dev/null)" ] && cd /boot/etc/dropbear && md5sum -c keys.md5 && install -m 600 dropbear_* -t /etc/dropbear/
+		[ -d /mnt/jffs2/etc/dropbear ] && [ -f /mnt/jffs2/etc/dropbear/keys.md5 ] && [ -z "$(ls /etc/dropbear/dropbear_* 2>/dev/null)" ] && cd /mnt/jffs2/etc/dropbear && md5sum -c keys.md5 && install -m 600 dropbear_* -t /etc/dropbear/
 
 		xo_correction
 		MAX_BS=$(fw_printenv -n iio_max_block_size 2> /dev/null || echo 67108864)
