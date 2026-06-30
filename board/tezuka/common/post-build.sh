@@ -72,3 +72,5 @@ ln -sf ../../wpa_supplicant/ifupdown.sh "${TARGET_DIR}/etc/network/if-pre-up.d/w
 ln -sf ../../wpa_supplicant/ifupdown.sh "${TARGET_DIR}/etc/network/if-post-down.d/wpasupplicant"
 
 ln -sf device_reboot "${TARGET_DIR}/usr/sbin/pluto_reboot"
+
+ln -sf /usr/bin/nano "${TARGET_DIR}/usr/bin/pico"
