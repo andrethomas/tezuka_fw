@@ -11,10 +11,10 @@ loop()
 while :
 do
 if [ "$adphys" = "ad9361-phy" ] ; then
-inotifywait -q -e modify /sys/bus/iio/devices/iio:device0/out_altvoltage0_RX_LO_frequency >/dev/null 2>&1
+inotifywait -e modify /sys/bus/iio/devices/iio:device0/out_altvoltage0_RX_LO_frequency
 rxfrequency=$(cat /sys/bus/iio/devices/iio:device0/out_altvoltage0_RX_LO_frequency)
 else
-inotifywait -q -e modify /sys/bus/iio/devices/iio:device1/out_altvoltage0_RX_LO_frequency >/dev/null 2>&1
+inotifywait -e modify /sys/bus/iio/devices/iio:device1/out_altvoltage0_RX_LO_frequency
 rxfrequency=$(cat /sys/bus/iio/devices/iio:device1/out_altvoltage0_RX_LO_frequency)
 fi
 
