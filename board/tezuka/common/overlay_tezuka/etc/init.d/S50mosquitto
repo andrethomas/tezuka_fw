@@ -7,17 +7,9 @@ MOSQUITTO_CONF="/etc/mosquitto/mosquitto.conf"
 [ -f "$MOSQUITTO_CONF" ] || exit 0
 
 start() {
-	printf "Starting %s: " "$DAEMON"
-	start-stop-daemon --start --background --make-pidfile \
-		--pidfile "$PIDFILE" --exec "/usr/sbin/$DAEMON" \
-		-- -c "$MOSQUITTO_CONF"
-	status=$?
-	if [ "$status" -eq 0 ]; then
-		echo "OK"
-	else
-		echo "FAIL"
-	fi
-	return "$status"
+	# Disabled: mosquitto not started
+	echo "OK (disabled)"
+	return 0
 }
 
 stop() {

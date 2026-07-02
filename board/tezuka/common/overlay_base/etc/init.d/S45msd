@@ -66,8 +66,8 @@ case "$1" in
 		umount /mnt/msd
 		echo $img > $file
 
-		start-stop-daemon -S -b -q -m -p /var/run/update.pid -x /bin/sh -- /sbin/update.sh
-		[ $? = 0 ] && echo "OK" || echo "FAIL"
+		# Disabled: start-stop-daemon -S -b -q -m -p /var/run/update.pid -x /bin/sh -- /sbin/update.sh
+		echo "OK (update.sh disabled)"
 		;;
 
 	stop)

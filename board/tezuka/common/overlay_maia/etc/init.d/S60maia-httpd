@@ -12,6 +12,11 @@ wait_for_iio() {
 
 case "$1" in
     start)
+        # Disabled: maia-httpd not started
+        echo "OK (disabled)"
+        ;;
+
+    check)
         printf "Starting maia-httpd: "
         if [ -f /usr/bin/maia-httpd.xz ]; then
             xz -d /usr/bin/maia-httpd.xz
