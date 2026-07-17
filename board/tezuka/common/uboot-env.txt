@@ -80,6 +80,7 @@ banner=\
   echo "Universal Zynq70x/AD936x firmware builder"; \
   echo "Version #BUILD#"; \
   echo "By F5OEO and contributors"; \
+  meminfo; \
   echo "";
 
 bootmenu_0=Boot from SD card Tezuka=mmc dev 0; run sdboot
@@ -90,7 +91,7 @@ baudrate=115200
 bitstream_image=system.bit.bin
 bitstream_size=0x400000
 bootcmd=if test -n "${modeboot}"; then run ${modeboot}; else adi_hwref; run ${modeboot}; fi
-bootdelay=10
+bootdelay=4
 bootenv=uEnv.txt
 boot_image=BOOT.bin
 boot_size=0xF00000
@@ -144,6 +145,7 @@ preboot_main=\
   elif test "${modeboot}" = "qspiboot" ; then \
     if env run qspiboot_bootenv; then \
         env import -t ${loadbootenv_addr} 0x20000; \
+        run dfu_button; \
     fi; \
   elif test "${modeboot}" = "usbboot" ; then \
     if env run loadbootenv_usb; then \
@@ -161,9 +163,10 @@ soft_reboot_cause=itest *f8000258 == 480003 && run clear_reset_cause && run dfu_
 
 my_led=15
 dfu_led=gpio set ${my_led}; sleep 1; gpio clear ${my_led}; sleep 0.5; gpio set ${my_led}; sleep 0.5; gpio clear ${my_led}; sleep 0.5; gpio set ${my_led};gpio clear ${my_led};
-dfu_button=gpio input 14 && run dfu_sf;
-
-preboot=run dfu_button; run soft_reboot_cause; adi_hwref; run preboot_main ; adi_hwref;
+# SKIP DFU BUTTON AS NOT SUPPROTED BY ALL BOARDS
+# dfu_button=gpio input 14 && run dfu_sf;
+dfu_button=echo "Skipping DFU button";
+preboot=run soft_reboot_cause; adi_hwref; run preboot_main ; adi_hwref;
 
 pl_init=\
   echo "Initializing PL infrastructure..."; \
